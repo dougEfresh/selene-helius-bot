@@ -86,7 +86,7 @@ impl SeleneBot {
   async fn get_name(&self, addr: &str) -> String {
     let start = Instant::now();
     info!("looking name for account {}", addr);
-    let result = self.helius.get_names(&addr).await;
+    let result = self.helius.get_names(addr).await;
     let name: String = match result {
       Ok(domain_names) => {
         if domain_names.domain_names.is_empty() {
