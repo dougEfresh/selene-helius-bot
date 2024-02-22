@@ -102,6 +102,7 @@ jobs:
           cargo doc
 
   build-and-push:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
