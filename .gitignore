@@ -1,1 +1,5 @@
 /target
+.idea
+nohup.out
+Cargo.lock
+.env
