@@ -8,7 +8,7 @@ name = "selene-helius-bot"
 path = "src/main.rs"
 
 [dependencies]
-selene-helius-sdk = { version = "0.1.1" }
+selene-helius-sdk = { version = "0.2.1" }
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 log = { version = "0.4" , features = ["std", "serde", "kv_unstable", "kv_unstable_serde"] }
