@@ -63,7 +63,7 @@ async fn handle_health(bot: Arc<SeleneBot>) -> Result<impl Reply, Rejection> {
 async fn serve(args: command::ServeArgs) -> color_eyre::Result<()> {
   let metrics_container = Arc::new(metrics::Container::new()?);
   let selene_bot: Arc<SeleneBot> = Arc::new(SeleneBot::new(
-    args.selene_chat_id,
+    args.chat_id,
     &args.helius_api_key,
     args.teloxide_token,
     metrics_container.clone(),

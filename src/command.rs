@@ -42,7 +42,7 @@ pub struct ServeArgs {
 
   /// This is your telegram channel id
   #[arg(long, env)]
-  pub selene_chat_id: i64,
+  pub chat_id: i64,
 
   #[arg(long, env)]
   /// Your bot's token
