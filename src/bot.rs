@@ -10,7 +10,6 @@ use std::sync::Arc;
 use std::time::Instant;
 use teloxide::prelude::*;
 use teloxide::types::Recipient;
-use teloxide::Bot;
 use tracing::{debug, error, info};
 use warp::Filter;
 
