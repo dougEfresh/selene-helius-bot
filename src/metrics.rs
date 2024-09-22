@@ -26,7 +26,7 @@ impl Container {
 }
 
 impl Container {
-  pub fn new() -> color_eyre::Result<Self> {
+  pub fn new() -> anyhow::Result<Self> {
     let m = Self {
       cache_gauge: IntGauge::new("name_cache", "Cache Entries")?,
       cache_add: IntCounter::new("name_add", "Cache item added")?,

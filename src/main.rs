@@ -7,7 +7,7 @@ use crate::bot::with_bot;
 use crate::command::SubCommands;
 use bot::SeleneBot;
 use clap::Parser;
-use selene_helius_sdk::api::types::enhanced::EnhancedTransaction;
+use helius::types::EnhancedTransaction;
 use serde::Serialize;
 use std::convert::Infallible;
 use std::sync::Arc;
@@ -17,8 +17,7 @@ use tracing_subscriber::fmt::format::FmtSpan;
 use warp::http::StatusCode;
 use warp::{Filter, Rejection, Reply};
 
-fn init_tracing() -> color_eyre::Result<()> {
-  color_eyre::install()?;
+fn init_tracing() -> anyhow::Result<()> {
   let filter = std::env::var("RUST_LOG").unwrap_or_else(|_| {
     "tracing=info,selene_helius_bot=info,selene_helius_sdk=debug,warp=info".to_owned()
   });
@@ -60,7 +59,7 @@ async fn handle_health(bot: Arc<SeleneBot>) -> Result<impl Reply, Rejection> {
   }
 }
 
-async fn serve(args: command::ServeArgs) -> color_eyre::Result<()> {
+async fn serve(args: command::ServeArgs) -> anyhow::Result<()> {
   let metrics_container = Arc::new(metrics::Container::new()?);
   let selene_bot: Arc<SeleneBot> = Arc::new(SeleneBot::new(
     args.chat_id,
@@ -98,7 +97,7 @@ pub async fn handle_rejection(_: Rejection) -> std::result::Result<impl Reply, I
 }
 
 #[tokio::main]
-async fn main() -> color_eyre::Result<()> {
+async fn main() -> anyhow::Result<()> {
   let env = dotenvy::dotenv();
   if env.is_err() {
     tracing::debug!("no .env file");

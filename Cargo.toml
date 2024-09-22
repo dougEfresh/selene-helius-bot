@@ -8,7 +8,8 @@ name = "selene-helius-bot"
 path = "src/main.rs"
 
 [dependencies]
-selene-helius-sdk = { version = "0.2.4" }
+anyhow = { version = "1"}
+helius = { git = "https://github.com/dougEfresh/helius-rust-sdk.git", branch = "2.x" }
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 log = { version = "0.4" , features = ["std", "serde", "kv_unstable", "kv_unstable_serde"] }
@@ -16,7 +17,6 @@ tracing = {  version = "0.1" }
 tracing-log = {version = "0.2" }
 tracing-error = { version = "0.2" }
 tracing-subscriber = { version = "0.3", features = ["env-filter", "serde"] }
-color-eyre = { version = "0.6" }
 teloxide = "0.12"
 clap = { version = "4", features = ["std", "color", "help", "usage", "error-context", "suggestions", "derive", "cargo", "wrap_help", "unicode", "string", "unstable-styles", "env"] }
 serde = { version = "1", features = ["derive"] }
@@ -24,6 +24,6 @@ dashmap = { version = "5" }
 prometheus = {  version = "0.13" }
 once_cell = {  version = "1" }
 dotenvy = { version = "0.15" }
-solana-sdk = {  version = "1.18" }
-solana-program = {  version = "1.18" }
-solana-client = { version = "1.18" }
+solana-sdk = {  version = "2.0.10" }
+solana-program = {  version = "2.0.10" }
+solana-client = { version = "2.0.10" }

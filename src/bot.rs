@@ -1,7 +1,7 @@
 use crate::metrics::Container;
 use dashmap::DashMap;
-use selene_helius_sdk::api::types::enhanced::EnhancedTransaction;
-use selene_helius_sdk::{Helius, HeliusBuilder};
+use helius::types::{Cluster, EnhancedTransaction};
+use helius::Helius;
 use solana_sdk::pubkey::Pubkey;
 use std::convert::Infallible;
 use std::fmt::{Display, Formatter};
@@ -74,10 +74,11 @@ impl SeleneBot {
     api_key: &str,
     token: String,
     metrics_container: Arc<Container>,
-  ) -> selene_helius_sdk::Result<Self> {
+  ) -> anyhow::Result<Self> {
     let id = ChatId(id);
     let bot = Bot::new(token);
-    let helius = HeliusBuilder::new(api_key).build()?;
+    let helius = Helius::new_with_async_solana(api_key, Cluster::MainnetBeta)?;
+
     let name_cache: DashMap<String, AccountName> = DashMap::new();
     Ok(Self { id, bot, helius, name_cache, metrics_container })
   }
@@ -85,6 +86,9 @@ impl SeleneBot {
   async fn get_name(&self, addr: &str) -> String {
     let start = Instant::now();
     info!("looking name for account {}", addr);
+    self.metrics_container.measure(start, "get_name");
+    String::new()
+    /*
     let result = self.helius.get_names(addr).await;
     let name: String = match result {
       Ok(domain_names) => {
@@ -101,12 +105,13 @@ impl SeleneBot {
     };
     self.metrics_container.measure(start, "get_name");
     name
+     */
   }
 
   async fn find_names(
     &self,
     transactions: &[EnhancedTransaction],
-  ) -> color_eyre::Result<Vec<AccountName>> {
+  ) -> anyhow::Result<Vec<AccountName>> {
     let mut names: Vec<AccountName> = transactions
       .iter()
       .flat_map(|t| t.account_data.iter())
@@ -165,9 +170,9 @@ impl SeleneBot {
   }
 
   #[tracing::instrument(skip(self))]
-  pub async fn health(&self) -> color_eyre::Result<u64> {
+  pub async fn health(&self) -> anyhow::Result<u64> {
     let start = Instant::now();
-    let height = self.helius.connection().get_block_height().await?;
+    let height = self.helius.async_connection()?.get_block_height().await?;
     self.metrics_container.measure(start, "block_height");
     Ok(height)
   }
